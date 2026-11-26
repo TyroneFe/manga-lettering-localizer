@@ -2,13 +2,13 @@
 
 This Windows tool transfers the English lettering from a black-and-white manga edition onto the matching official color artwork. It keeps the color page at its original resolution and takes the letter shapes, punctuation and emphasis from the English page. The current prototype runs locally on the CPU.
 
-**The next milestone is a visually approved first chapter of Gantz.** Five pilot scenes passed human review. All 40 story canvases in chapter 1 have draft PNGs, with 227 lettering groups transferred and one split spread in reading order. The reviewer chose to omit the English-only platform announcement on page 20. The chapter still needs lettering repairs and a full-page review before a volume trial can begin. [Chapter 1 checklist](https://github.com/TyroneFe/manga-lettering-localizer/issues/1)
+**The next milestone is a visually approved first chapter of Gantz.** Five pilot scenes passed human review. All 40 story canvases in chapter 1 have draft PNGs, with 231 lettering groups transferred and one split spread in reading order. The reviewer chose to omit the English-only platform announcement on page 20. The chapter still needs lettering repairs and a full-page review before a volume trial can begin. [Chapter 1 checklist](https://github.com/TyroneFe/manga-lettering-localizer/issues/1)
 
 ## What needs doing
 
 | When | Work | What will show it is ready |
 | --- | --- | --- |
-| Now | Finish chapter 1 lettering. Two track sounds on page 20 are in English. Four running effects and a lifting sound remain. Page 33 has a train screech across the platform. | Check each effect against the official English donor at native size. Record any unresolved effect. Inspect every dialogue balloon for remaining Japanese text. [Chapter checklist](https://github.com/TyroneFe/manga-lettering-localizer/issues/1) |
+| Now | Finish chapter 1 lettering. All six running effects on page 20 are in English. The lower lifting sound still crosses detailed coat folds. Page 33 has a train screech across the platform. | Check each effect against the official English donor at native size. Record any unresolved effect. Inspect every dialogue balloon for remaining Japanese text. [Chapter checklist](https://github.com/TyroneFe/manga-lettering-localizer/issues/1) |
 | Now | Inspect the repaired floor lines on page 29, the two upper captions on page 31 and the six groups flagged by the residual-ink audit. | Record the native-size visual check for each item and correct any remaining strokes or seams. |
 | In parallel | Test lettering repairs over patterned artwork. | An original striped fixture catches a reflected seam that bends the wrong way and rejects sampling from erased pixels. [Texture repair task](https://github.com/TyroneFe/manga-lettering-localizer/issues/2) |
 | In parallel | Measure when page matching, alignment and balloon detection need a reviewer. | Measure wrong matches, missed regions and cases held for review. Start with repeated art, missing counterparts and split spreads. [Page-matching benchmark](https://github.com/TyroneFe/manga-lettering-localizer/issues/3) |
