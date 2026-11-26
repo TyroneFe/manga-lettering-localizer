@@ -1,0 +1,9 @@
+{
+  "radio": {
+    "expected_color_member": "001.png",
+    "retained": [],
+    "regions": [
+      {"label": "echo", "erase": [53, 34, 159, 77], "ink": [50, 34, 170, 78]}
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+Pillow==13.0.0
+numpy==2.5.5
+opencv-python-headless==5.1.0.95
+rarfile==4.5
+pytest==9.2.0

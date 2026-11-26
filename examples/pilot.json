@@ -1,0 +1,8 @@
+{
+  "color_archive": "color/radio.cbz",
+  "english_archive": "english/radio.cbz",
+  "candidate_range": [1, 1],
+  "cases": [
+    {"english_contains": "001.png", "views": [{"id": "radio", "donor_fraction": [0, 1]}]}
+  ]
+}
