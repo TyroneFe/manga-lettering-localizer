@@ -1,16 +1,35 @@
 # Manga Lettering Localizer
 
-Transfer English lettering from a black-and-white edition onto the matching color page. The color page supplies the artwork and canvas. The English page supplies the letter shapes, punctuation and emphasis.
+This Windows tool transfers the English lettering from a black-and-white manga edition onto the matching official color artwork. It keeps the color page at its original resolution and takes the letter shapes, punctuation and emphasis from the English page. The current prototype runs locally on the CPU.
 
-This is a Windows-first Python command-line prototype. It runs locally on the CPU. The operator reviews page matches and edit regions. The renderer saves lossless PNGs and checks that every pixel outside the approved regions stayed identical to the decoded color original.
+**The next milestone is a visually approved first chapter of Gantz.** Five pilot scenes passed human review. All 40 story canvases in chapter 1 have draft PNGs, with 225 lettering groups transferred and one split spread in reading order. The chapter still needs lettering repairs and a full-page review before a volume trial can begin. [Chapter 1 checklist](https://github.com/TyroneFe/manga-lettering-localizer/issues/1)
 
-![An original radio illustration in color with Japanese lettering, its English donor, and the localized color result](docs/radio-comparison.png)
+## What needs doing
 
-*The demo generates both editions of this original illustration. The English letters in the third panel come from the middle panel.*
+| When | Work | What will show it is ready |
+| --- | --- | --- |
+| Now | Finish chapter 1 lettering. Page 20 still has running and lifting sounds over the artwork. Page 33 has a train screech across the platform. | Check each effect against the official English donor at native size. Record any unresolved effect. Inspect every dialogue balloon for remaining Japanese text. [Chapter checklist](https://github.com/TyroneFe/manga-lettering-localizer/issues/1) |
+| Now | Settle the page 20 announcement. The English edition adds a caption over station artwork. One proof places it in the white margin. | Compare both placements on the whole page and record the reviewer's choice. Check the floor lines on page 29 and the two upper captions on page 31 in the same review. |
+| In parallel | Test lettering repairs over patterned artwork. | An original striped fixture catches a reflected seam that bends the wrong way and rejects sampling from erased pixels. [Texture repair task](https://github.com/TyroneFe/manga-lettering-localizer/issues/2) |
+| In parallel | Measure when page matching, alignment and balloon detection need a reviewer. | Measure wrong matches, missed regions and cases held for review. Start with repeated art, missing counterparts and split spreads. [Page-matching benchmark](https://github.com/TyroneFe/manga-lettering-localizer/issues/3) |
+| After chapter approval | Run and review one volume before attempting a collection. | Account for every source page, reproduce the results after an interrupted run and verify reading order, spreads and color coverage. |
+| Later | Build verified CBZ export and the Windows review editor. | Reopen the CBZ and compare every page with its approved PNG. In the editor, correct a mask, undo the edit, save and reopen the project, then resume the run. |
+
+## What works today
+
+- **Import and alignment.** The engine inventories and hashes the originals, proposes matching pages and estimates how to align the English donor with the color artwork. An operator reviews uncertain matches and lettering regions.
+- **Lettering and PNG output.** The renderer handles flat balloons, reviewed captions and selected outlined effects. It uses separate masks for removing old ink and adding English lettering. The chapter verifier reopened 35 chapter renders and checked all 37 original archive hashes. It found zero changed pixels outside authorized regions. The reading index includes those 35 renders and five pilot masters.
+- **Recovery and testing.** The chapter runner passed an interruption and restart test. The public release passed 43 synthetic regression tests. The example below exercises the transfer and saved-PNG checks using original artwork anyone can share.
+
+## How to help
+
+**Without coding:** run the Windows demo below and inspect the balloon at 100%. A report that pinpoints a clipped letter, stray stroke or confusing setup step is enough to start investigating. [Report a demo result](https://github.com/TyroneFe/manga-lettering-localizer/issues/new?template=demo-report.md)
+
+**With Python or image-processing experience:** the texture repair test is a small first contribution. The matching benchmark is a larger task. Both use original synthetic artwork and can be developed offline. [Contribution guide](CONTRIBUTING.md) · [Open tasks](https://github.com/TyroneFe/manga-lettering-localizer/issues)
 
 ## Try it on Windows
 
-Use 64-bit Python 3.12. From the repository directory in PowerShell, run:
+Use 64-bit Python 3.12. From the repository directory, run these commands in PowerShell.
 
 ```powershell
 py -3.12 -m venv .venv
@@ -18,32 +37,8 @@ py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe demo.py
 ```
 
-Open `demo-output/comparison.png` for the three-way comparison. The native master is `demo-output/output/pilot/001-radio.png`. The demo creates two miniature CBZs, inventories them, estimates page registration, transfers one balloon, then reopens the saved PNG and checks the source hashes. The final console line reports the number of changed pixels outside the approved regions. The expected value is zero.
+The demo generates two miniature CBZs and writes `demo-output/comparison.png`. Compare the exclamation mark in the English donor with the one in the result. Open `demo-output/output/pilot/001-radio.png` to inspect the native master. The last console line should read `Changed pixels outside approved regions: 0`.
 
-Run the synthetic regression suite with:
+![Original color radio drawing, black-and-white English donor, and localized radio with ECHO! in the balloon](docs/radio-comparison.png)
 
-```powershell
-.\.venv\Scripts\python.exe -m pytest -q
-```
-
-## Use your own editions
-
-Start with one known matching pair. Inventory your local archives, inspect the registration, then mark the source and destination lettering regions. Use files you have permission to process. Source archives, generated pages and extracted lettering stay in the local workspace. [One-page walkthrough](docs/one-page-study.md)
-
-## What works today
-
-| Stage | Current behavior |
-| --- | --- |
-| Import and matching | Read-only inventory with hashes, image metadata and gap or duplicate reports. Feature matching proposes page identities and donor-to-color transforms. |
-| Lettering transfer | Flat balloons, reviewed captions and selected outlined effects. Separate masks authorize removing original ink and adding donor ink. Exposed artwork under an effect may require a locally sampled repair and visual review. |
-| Verification | Reopen PNGs, check native dimensions and ICC metadata, compare protected pixels, and write per-page results. An offline index check verifies saved master hashes, comparison links and split-spread reading order. |
-| Chapter studies | A resumable chapter runner and reviewed lettering selections support a configured study. New editions need their own page mapping and annotations. |
-
-Development has reached a 40-canvas trial chapter with 225 transferred groups, including both sides of a spread. Five pilot scenes passed human review. The chapter still has effects and placement decisions under review. Volume-wide processing, a desktop review interface and verified CBZ export remain roadmap items.
-
-## Where to look in the code
-
-- Source inspection and geometric matching live in [inventory.py](manga_localizer/inventory.py) and [registration.py](manga_localizer/registration.py).
-- Balloon masks, paper repair and over-art lettering live in [lettering.py](manga_localizer/lettering.py), [paper.py](manga_localizer/paper.py) and [effects.py](manga_localizer/effects.py).
-- The [renderer](manga_localizer/render.py) writes masters and visual diagnostics. The [verifier](manga_localizer/verify.py) compares the saved result with the original archive.
-- The [example study](examples/regions.json) shows the coordinates used by the demo. The [tests](tests/) build their fixtures locally.
+To try your own editions, start with one known matching pair. The walkthrough covers inventory, registration, region coordinates and saved-PNG verification. [Localize a first page](docs/one-page-study.md)
